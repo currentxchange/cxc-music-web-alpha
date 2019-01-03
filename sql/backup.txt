@@ -1,0 +1,72 @@
+-- phpMyAdmin SQL Dump
+-- version 4.7.3
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost
+-- Generation Time: Nov 23, 2018 at 06:40 PM
+-- Server version: 5.6.35
+-- PHP Version: 7.1.8
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `cm`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `song`
+--
+
+CREATE TABLE `song` (
+  `songid` int(11) UNSIGNED NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `userid` int(11) NOT NULL,
+  `lat` decimal(8,6) NOT NULL,
+  `lng` decimal(9,6) NOT NULL,
+  `mood` varchar(30) DEFAULT NULL,
+  `genre` varchar(40) NOT NULL,
+  `format` varchar(20) DEFAULT NULL,
+  `cxc_views` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `sc_link` varchar(126) DEFAULT NULL,
+  `yt_link` varchar(50) DEFAULT NULL,
+  `spot_link` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `song`
+--
+
+INSERT INTO `song` (`songid`, `created`, `userid`, `lat`, `lng`, `mood`, `genre`, `format`, `cxc_views`, `sc_link`, `yt_link`, `spot_link`) VALUES
+(219, '2018-11-16 22:08:07', 1, '-17.376689', '-66.228848', 'light', 'hip-hop', NULL, 0, 'sirdouglasfresh/def-when-my-soul-escapes-away', NULL, NULL),
+(222, '2018-11-16 22:10:17', 1, '-17.404373', '-66.223526', 'light', 'hip-hop', NULL, 0, NULL, 'Ygo5VcMGMCs', NULL),
+(225, '2018-11-16 22:38:55', 1, '-17.404373', '-66.203785', 'light', 'hip-hop', NULL, 0, NULL, NULL, '05ujUIwh4HOW7RaahG6rqd'),
+(227, '2018-11-16 22:50:34', 1, '-17.406011', '-66.205502', 'light', 'hip-hop', NULL, 0, NULL, NULL, '05ujUIwh4HOW7RdahG6rqd'),
+(228, '2018-11-16 23:11:38', 1, '-17.403882', '-66.232796', 'chill', 'pop', NULL, 0, 'dae_zhen/friday', NULL, NULL),
+(230, '2018-11-17 00:06:45', 1, '-17.388648', '-66.179409', 'party', 'pop', NULL, 0, 'harlem_fetty/fetty-wap-trap-queen-rough', NULL, NULL),
+(231, '2018-11-17 00:07:43', 1, '-17.415307', '-66.162500', 'light', 'pop', NULL, 0, 'lil-dicky/freaky-friday-feat-chris-brown', NULL, NULL);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `song`
+--
+ALTER TABLE `song`
+  ADD PRIMARY KEY (`songid`),
+  ADD UNIQUE KEY `yt_link` (`yt_link`),
+  ADD UNIQUE KEY `spot_link` (`spot_link`),
+  ADD UNIQUE KEY `sc_link` (`sc_link`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `song`
+--
+ALTER TABLE `song`
+  MODIFY `songid` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=232;

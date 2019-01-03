@@ -1,0 +1,734 @@
+html, body, #map
+{
+  height: 100%;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+
+}
+
+#map
+{
+  height: inherit;
+  width: inherit;
+
+}
+
+#map .leaflet-layer {
+    filter: invert(100%) grayscale(100%);
+}
+
+.leaflet-control-attribution
+{
+opacity:.5;
+background:none;
+}
+
+.leaflet-control-container
+{
+ background:none;
+}
+
+
+.leaflet-container .leaflet-control-attribution{
+   background:rgba(0,0,0, .3);
+   color #d2d2d2;
+}
+
+.leaflet-container a, .leaflet-control-attribution a {
+   background:rgba(0,0,0, .3);
+   color #d2d2d2;
+}
+
+
+
+/* --- Marker Styling --- */
+.marker-tooltip
+{
+  background-color: "#000000" !important;
+  color: "#fff" !important;
+  border-color: "#000000" !important;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 127, .3));
+}
+
+.leaflet-tooltip-left.myCSSClass::before {
+  border-left-color: black !important;
+}
+.leaflet-tooltip-right.myCSSClass::before {
+  border-right-color: black !important;
+}
+
+/* --- Search Breadcrumb --- */
+#search-breadcrumb
+{
+  position: fixed;
+  font-size: 10px;
+  font-style: oblique;
+  top:0px;
+  left:20px;
+  z-index: 1009;
+}
+
+
+/* === Add Music === */
+
+.form-group input
+{
+  height:45px;
+  margin:5px;
+}
+
+#slide-left
+{
+  top:10px;
+  left:10px;
+  width:480px;
+  text-align: center;
+  z-index:1002;
+padding-bottom:90px;
+
+}
+
+
+
+#select-wrap *
+{
+  position:relative;
+  clear:none;
+  width:260px;
+  float: right;
+  display:block;
+  height:40px;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+#select-labels
+{
+  position:relative;
+  clear:none;
+  width:140px;
+  float: left;
+  font-size: 30px;
+  display:block;
+  margin-bottom: 20px;
+}
+
+#mood, #genre, #format
+{
+  display: inline-block;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 4px;
+
+}
+
+#blue-bg
+{
+  position: absolute;
+  width:90px;
+  height:180px;
+  opacity:.3;
+  background:url('../images/blue-chip-am.png');
+  top:240px;
+  right:0px;
+  z-index: -1 !important;
+  background-position: right top;
+  background-repeat: no-repeat;
+}
+#sol-bg
+{
+  position:absolute;
+  width:259px;
+  height:259px;
+  opacity:.3;
+  background:url('../images/sol-chip-am.png');
+  top:0px;
+  left:0px;
+  z-index: -1 !important;
+  background-position: right top;
+  background-repeat: no-repeat;
+}
+
+#purple-bg
+{
+  position: absolute;
+  width:148px;
+  height:229px;
+  opacity:.3;
+  background:url('../images/purple-chip-am6.png');
+  top:443px;
+  left:0px;
+  z-index: -1 !important;
+  background-position: left bottom;
+  background-repeat: no-repeat;
+  box-sizing:content-box;
+}
+
+#submit-music-btn
+{
+  width:100%;
+  height:60px;
+  font-size: 30px;
+  clear:both;
+  display: block;
+}
+
+#yt:focus {
+  border: 1px solid rgba(255, 0, 0, .3);
+}
+
+#yt:hover {
+  border: 1px solid rgba(255, 0, 0, .5);
+}
+
+#sc:focus {
+  border: 1px solid rgba(255, 127, 52, .3);
+}
+
+#sc:hover {
+  border: 1px solid rgba(255, 127, 52, .5);
+}
+
+#spot:focus {
+  border: 1px solid rgba(132, 189, 0, .3);
+}
+
+#spot:hover {
+  border: 1px solid rgba(132, 189, 0, .5);
+}
+
+#add-music-steem-opt
+{
+  position:relative;
+  top:90px
+  left:20px;
+  opacity: .4;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.2);
+  display:none;
+
+}
+
+#add-music-steem-opt:hover
+{
+  opacity: .8;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+
+
+
+/* === Both === */
+
+#active-music-jumbo, #slide-left
+{
+  color: #ffffff;
+  z-index:1000;
+  position:absolute;
+  float: both;
+  clear:none;
+  overflow-y:scroll;
+  scroll-behavior: smooth;
+  background-color: rgba(48,48,48,0.8);
+  max-height: calc(100% - 20px);
+  display:none;
+}
+
+select
+{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url(../images/dropdown.png) right / 20px no-repeat #fff;
+  padding-right: 20px;
+  text-indent: 5px;
+}
+
+
+/* === Jumbotron Displaying Music === */
+
+#active-music-jumbo
+{
+  top:10px;
+  right:10px;
+  min-width:480px;
+}
+#active-music-jumbo *
+{
+  position:relative;
+  z-index:1002;
+
+}
+
+.center
+{
+  text-align: center;
+}
+
+#active-music-jumbo-bg {
+  position:absolute;
+  z-index: 0 !important;
+  background-image: url('../images/white-logo-part-for-corner.png');
+  background-position: right top;
+  background-repeat: no-repeat;
+  top:0px;
+  right:-0px;
+  width:130px;
+  height:200px;
+  opacity:.3;
+}
+
+
+#close-jumbo, #close-add-music
+{
+  position:relative;
+  z-index: 3333;
+  top:-50px;
+  left:-17px;
+  background-image: url('../images/close-x.png');
+  background-position: left top;
+  background-repeat: no-repeat;
+  background-size:contain;
+  height:30px;
+  width:30px;
+  opacity: .2;
+}
+#close-jumbo:hover, #close-add-music:hover
+{
+    opacity: .4;
+    cursor: pointer;
+}
+
+#title-jumbo
+{
+  max-width:480px;
+}
+
+#profiles-jumbo
+{
+
+}
+
+#profiles-jumbo span.yt-profile a
+{
+  color:#ff0000;
+  opacity:.5;
+}
+
+#profiles-jumbo .sc-profile a
+{
+  color:#FF7F34;
+  opacity:.5;
+}
+
+#profiles-jumbo span.spot-profile a
+{
+  color:#84BD00;
+  opacity:.5;
+}
+
+#profiles-jumbo span.yt-profile a:hover
+{
+  opacity:1;
+}
+
+#profiles-jumbo .sc-profile a:hover
+{
+  opacity: 1;
+}
+
+#profiles-jumbo span.spot-profile a:hover
+{
+  opacity:1;
+}
+
+
+
+
+
+#by-label{
+  display:none;
+  opacity:.5;
+}
+
+
+
+.yt-vid
+{
+
+}
+
+.sc-play iframe
+{
+ height:480px;
+ width:480px;
+}
+.spot-play iframe
+{
+  width:480px;
+  height: 560px;
+}
+
+
+.up-button
+{
+  width:100px;
+  height:100px;
+  opacity: .2;
+
+}
+
+#up-button-out
+{
+  clear:both;
+  position: fixed;
+  bottom:50px;
+  right: 565px;
+}
+
+#up-button-in
+{
+  positon:relative;
+  left:calc(50% - 50px);
+  margin: 50px 0 50px 0;
+}
+
+.up-button:hover
+{
+    opacity: .9;
+    cursor: pointer;
+}
+
+
+
+/* --- Link Icons --- */
+
+
+
+#icons
+{
+  text-align:center;
+  margin: 20px;
+}
+
+#icons h3
+{
+  display:none;
+}
+
+#icons img
+{
+
+
+}
+
+#icons span
+{
+  margin: 0px, 30px, 0px, 30px;
+    padding: 20px, 30px, 20px, 30px !important;
+}
+
+/*-moz-box-shadow: 0 0 10px #789;
+-webkit-box-shadow: 0 0 10px #789; */
+
+#yt-icon a img
+{
+filter: drop-shadow(0 0 10px rgba(255, 0, 0, .3));
+}
+
+#sc-icon a img
+{
+filter: drop-shadow( 0 0 10px rgba(255, 127, 52, .3));
+}
+
+#spot-icon a img
+{
+filter: drop-shadow( 0 0 10px rgba(132, 189, 0, .3));
+}
+
+#yt-icon a img:hover
+{
+filter: drop-shadow( 0 0 10px rgba(255, 0, 0, .9));
+}
+
+#sc-icon a img:hover
+{
+filter: drop-shadow( 0 0 10px rgba(255, 127, 52, .9));
+}
+
+#spot-icon a img:hover
+{
+filter: drop-shadow( 0 0 10px rgba(132, 189, 0, .9));
+}
+
+
+#native-links-title, #sharing-links-title
+{
+  margin-top:50px;
+  text-align:center;
+}
+
+#share-music
+{
+  max-width: 480px;
+}
+
+#song-gmf
+{
+  float: left;
+}
+
+#steem-options
+{
+
+  display:inline;
+  float: right;
+  right:32px;
+  position: absolute;
+
+}
+
+#post-to-steem
+{
+
+}
+
+#flag-options
+{
+  clear:both;
+  width:200px !important;
+  position:absolute;
+  bottom:0px;
+  right:0px;
+}
+
+
+
+/* === Settings === */
+
+
+
+#how-to-label, #settings-label, #my-location-link, #steemit-login-label, .labelOne
+{
+  position:fixed;
+  font-size: 10px;
+  font-weight: 500;
+  z-index: 3009;
+  opacity: .6;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+#steemit-login-link:hover, .labelOne:hover, #settings-label:hover, #steemit-login-label:hover, #my-location-link:hover, #genre-selector:hover, #mood-selector:hover, #format-selector:hover, #genre-selector-ul li:hover, #mood-selector-ul li:hover, #format-selector-ul li:hover, #flag-options li:hover
+{
+    opacity: 1;
+    cursor:pointer;
+}
+
+#genre-selector-ul li:hover, #mood-selector-ul li:hover, #format-selector-ul li:hover, #flag-options li:hover
+{
+  background-color: rgba(0,0,0,1);
+  text-indent: .5em;
+}
+
+
+#settings-label
+{
+position:relative;
+}
+
+#how-to-label, #my-location-link, #steemit-login-link, #settings-label
+{
+clear:none;
+position:relative;
+}
+
+#steemit-login-label
+{
+
+position: relative;
+}
+
+
+#selectors-holder
+{
+  position:fixed;
+  top:3px;
+  left:10px;
+  z-index: 3009;
+  width: 400px;
+}
+
+#genre-selector
+{
+position: relative;
+}
+
+#mood-selector
+{
+position: relative;
+}
+
+#format-selector
+{
+  position: relative;
+}
+#clear-selectors
+{
+  position: relative;
+  display:none;
+}
+
+
+ul.static-selectah
+{
+    text-decoration: none;
+    list-style-type: none;
+    top:30px;
+    left:10px;
+    position: fixed;
+
+}
+
+ul.static-selectah
+{
+    text-decoration: none;
+    list-style-type: none;
+    top:30px;
+    left:10px;
+    position: fixed;
+
+}
+ul.inspectah-selects
+{
+  position: relative;
+  bottom: 0px;
+  display:none;
+  width:auto;
+  text-decoration: none;
+  list-style-type: none;
+
+
+}
+
+.inspectah-selects-labels
+{
+  position:relative;
+  bottom:10px;
+  left:-10px;
+}
+
+
+#genre-selector-ul, #mood-selector-ul, #format-selector-ul
+{
+  display: none;
+}
+
+#bottom-menus
+{
+  position:fixed;
+  bottom:3px;
+  left:10px;
+  z-index: 3009;
+  width: 600px;
+}
+
+.labelOne
+{
+  padding: .5em .3em .5em .3em;
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;
+  cursor: pointer;
+}
+
+#how-to-link
+{
+  text-decoration: none;
+  color:#ffffff;
+
+}
+
+#settings-menus
+{
+  position:fixed;
+  bottom:20px;
+  left:20px;
+  display:none;
+  z-index: 3009;
+}
+
+#settings-menus li, #flag-options li
+{
+  padding-left:1em;
+  text-indent:-.3em;
+  padding-right:.5em;
+}
+
+#settings-menus li:hover, #flag-options li:hover
+{
+  padding-left:1em;
+  text-indent:0em;
+}
+
+#settings-menus li:hover
+{
+  cursor: pointer;
+  background-color: #000 !important;
+  color: #dddddd;
+}
+
+.liActive
+{
+  background-color:rgba(0,255,0,.1);
+}
+
+li
+{
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;
+}
+
+
+/* --- Alerts --- */
+
+.bottom-alert
+{
+  width:62%;
+  z-index:5000;
+  position:fixed;
+  bottom: 20px;
+  right: calc(19%);
+  cursor: pointer;
+  opacity:.8;
+}
+
+.bottom-alert:hover
+{
+  opacity:1;
+}
+
+
+#cookie-warn, #steem-post-success, #steem-post-failed
+{
+  display:none;
+}
+
+.steem-color, a.steem-color, .steem-color *
+{
+  color:"#04d6a7" !important;
+}
+
+/* --- Doug's Delete Button --- */
+
+#dougsDeleteButton
+{
+  position: absolute;
+  right:20px;
+  top:3px;
+}
