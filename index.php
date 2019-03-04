@@ -6,16 +6,54 @@ session_start();
 <html>
 <head>
 	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-131077696-1"></script>
+	<script src="https://www.googletagmanager.com/gtag/js?id=UA-131077696-1" script async></script>
 	<script>
 	  window.dataLayer = window.dataLayer || [];
 	  function gtag(){dataLayer.push(arguments);}
 	  gtag('js', new Date());
 	  gtag('config', 'UA-131077696-1');
+		<!-- Facebook Meta -->
+		window.fbAsyncInit = function() {
+		FB.init({
+		  appId            : '324828248114538',
+		  autoLogAppEvents : true,
+		  xfbml            : true,
+		  version          : 'v2.10'
+		});
+		FB.AppEvents.logPageView();
+	  };
+
+	  (function(d, s, id){
+		 var js, fjs = d.getElementsByTagName(s)[0];
+		 if (d.getElementById(id)) {return;}
+		 js = d.createElement(s); js.id = id;
+		 js.src = "//connect.facebook.net/en_US/sdk.js";
+		 fjs.parentNode.insertBefore(js, fjs);
+	   }(document, 'script', 'facebook-jssdk'));
+
+		 function shareOverrideOGMeta(overrideLink, overrideTitle, overrideDescription, overrideImage)
+{
+	FB.ui({
+		method: 'share_open_graph',
+		action_type: 'og.likes',
+		action_properties: JSON.stringify({
+			object: {
+				'og:url': overrideLink,
+				'og:title': overrideTitle,
+				'og:description': overrideDescription,
+				'og:image': overrideImage
+			}
+		})
+	},
+	function (response) {
+	// Action after response
+	});
+}
+
 	</script>
 
 	<meta charset=utf-8 />
-	<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui' />
+	<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui'>
 	<meta name="description" content="Find underground music from around the world on cXc Music, an app by @currentxchange">
 	<meta name="author" content="Current X Change LLC">
 	<meta name="keywords" content="cXc,current x change,cxc world,cXc Web app,cxc app,current x change app,music mapping app,music mapp">
@@ -84,6 +122,8 @@ session_start();
 
 
 <!-- Daang Girl, You got STYLE -->
+	<!-- AND you my type.. -->
+	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <link rel="stylesheet" href="style/main.css" />
 
@@ -102,6 +142,9 @@ session_start();
 </head>
 <body>
 		<?php include 'search_selectors.php'; ?>
+	<div id="chart-toggle" class="labelOne static-selectah">
+		charts
+	</div>
 	<div class="jumbotron" id="slide-left">
 		<?php include 'slide_left.php'; ?>
 	</div>
@@ -133,7 +176,8 @@ session_start();
 				<span id="sc-icon"></span>
 
 				<span id="spot-icon"></span>
-			</div>
+			</div> 		<!-- </div id="icons"> -->
+
 
 			<hr class="jumbo-togs" />
 			<div id="up-button-out" class="up-button"role="button"><img src="images/icons/Sol-Chip-[NoRays][Circled]-Icon-v1.ffff00.svg" width="100" height="100" /></div>
@@ -190,13 +234,13 @@ session_start();
 	</div>
 
 	<div id='map'></div>
-<div id="alert-holder" class="bottom-alert">
-
-</div>
+	<?php include 'charts_display.php'; ?>
+<div id="alert-holder" class="bottom-alert"></div>
 
 <!-- Maps and Things -->
   <script src="js/map.js"></script>
 <!-- Map First, now things -->
+	<script src="js/charts.js"></script>
 	<script src="js/markers.js"></script>
 	<script src="js/steemy-sex.js"></script>
 

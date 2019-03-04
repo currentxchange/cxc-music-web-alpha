@@ -9,7 +9,7 @@
 
 
 <div class="form-group">
-  <h3><label>Place Your URLS for a song here. Just one song. You must have at least one link.</label></h3>
+  <h3><label>Paste URLS for one musical creation here. Please choose the most relevant location.</label></h3>
   <div id="add-music-error" class="alert alert-warning" style="display:none"></div>
   <div id="add-music-success" class="alert alert-success" style="display:none"></div>
     <input type="text" value="" id="yt" placeholder="Youtube URL" class="form-control" />
@@ -29,7 +29,7 @@
 
   <!--  Genre Selector  -->
   <select class="dropdown-menu"  id="genre">
-    <option role="presentation" value=""><a role="menuitem" tabindex="-1" href="#">Choose a Genre</a></option>
+    <option role="presentation" class="label-add-music" value=""><a role="menuitem" tabindex="-1" href="#">Choose a Genre</a></option>
 
     <option role="presentation" value="hip-hop"><a role="menuitem" tabindex="-1" href="#">Hip-Hop / Rap / RnB</a></option>
     <option role="presentation" value="reggaeton"><a role="menuitem" tabindex="-1" href="#">Reggaeton</a></option>
@@ -51,7 +51,7 @@
 
   <!--  Mood Selector -->
   <select class="dropdown-menu" id="mood" role="menu" >
-    <option role="presentation" value=""><a role="menuitem" tabindex="-1" href="#">Choose a Mood</a></option>
+    <option role="presentation" class="label-add-music" value=""><a role="menuitem" tabindex="-1" href="#">Choose a Mood</a></option>
 
     <option role="presentation" value="chill"><a role="menuitem" tabindex="-1" href="#">Chill</a></option>
     <option role="presentation" value="happy"><a role="menuitem" tabindex="-1" href="#">Happy</a></option>
@@ -73,7 +73,7 @@
 
   <!--  Format Selector -->
   <select class="dropdown-menu" id="format" role="menu" >
-    <option role="presentation" value=""><a role="menuitem" tabindex="-1" href="#">Choose a Format</a></option>
+    <option role="presentation" class="label-add-music" value=""><a role="menuitem" tabindex="-1" href="#">Choose a Format</a></option>
 
     <option role="presentation" value="song"><a role="menuitem" tabindex="-1" href="#">Song / Single</a></option>
     <option role="presentation" value="instrumental"><a role="menuitem" tabindex="-1" href="#">Instrumental</a></option>

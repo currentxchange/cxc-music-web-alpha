@@ -227,7 +227,6 @@ function validateYouTubeUrl(passed) {
             valid = false;
             console.log('youtube validation failed');
             errors.push("Youtube link is invalid. You can use youtu.be or youtube.com links.");
-            // Do anything for not being valid
         }
     }
 }
@@ -246,7 +245,6 @@ validateSpotifyUrl = function(passed) {
   } else { // Invalid
       valid = false;
       console.log('spotify validation failed');
-      // Do anything for not being valid
       errors.push("Check Spotify URL. Please make sure you are linking directly to the track, not an album. You can click \"copy song link\" and paste here.");
 
   }

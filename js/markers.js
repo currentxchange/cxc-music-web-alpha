@@ -1037,7 +1037,6 @@ if (Cookies.get('getItSteemy') !== undefined && parseInt(Cookies.get('getItSteem
             //ADD Error Information asking user to login
     }
 
-
 }); //END scapi.me(function (err, res)
 // --- Send Post to Steemit --- \\
 

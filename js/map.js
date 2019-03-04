@@ -19,7 +19,11 @@ randLocs = [
   [38.8935128, -77.1546602]
 ];
 
-  startGeo = randLocs[Math.floor(Math.random() * randLocs.length)];
+  //startGeo = randLocs[Math.floor(Math.random() * randLocs.length)]; // Change back to this when populated
+  //http://localhost:8888/cxc/?locLat=38.90813299596705&locLng=-96.37207031250001&zoom=5
+  startGeo = [38.90813299596705, -96.37207031250001];
+
+
 
 // --- How would you like that map, sir? --- \\
 if (typeof Cookies.get('mapStyle') === 'string' || Cookies.get('mapStyle') instanceof String) {
@@ -36,7 +40,7 @@ var northEast = L.latLng(90, 180);
 
   mymap = L.map('map', {
     center: startGeo,
-    zoom: 13,
+    zoom: 5, //13
     minZoom:2,
     doubleClickZoom: false,
     zoomControl: false,
@@ -171,7 +175,7 @@ makeLocCookieFull = function()
 if (Cookies.get('dunToldYa') == undefined)
 {
   $("#alert-holder")
-  .html('<div id="cookie-warn" class="alert alert-dark bottom-alert" role="alert">You like cookies? We do. By clicking anywhere on this site, you agree to our <a href="https://currentxchange.com/cookie-policy/" target="_blank" class="alert-link">cookie policy.</a> Also check out our <a href="https://currentxchange.com/privacy-policy/" target="_blank" class="alert-link">privacy policy</a>. Click this message to dismiss it for good!</div>');
+  .append('<div id="cookie-warn" class="alert alert-dark bottom-alert" role="alert">You like cookies? We do. By clicking anywhere on this site, you agree to our <a href="https://currentxchange.com/cookie-policy/" target="_blank" class="alert-link">cookie policy.</a> Also check out our <a href="https://currentxchange.com/privacy-policy/" target="_blank" class="alert-link">privacy policy</a>. Click this message to dismiss it for good!</div>');
   $("#cookie-warn").fadeIn(222);
 }
 
@@ -191,6 +195,42 @@ $("#cookie-warn a").click(function(event){
   });
 
 
+// --- Kickstarter Alert ---\\
+
+  date1 = new Date ( 2019, 2, 20 );
+  curDate = new Date();
+
+  if ((Cookies.get('dunToldYa') !== undefined) && Cookies.get('canWeKickIt') == undefined && (curDate <  date1) )
+  {
+    $("#alert-holder")
+    .append('<div id="kick-notice" class="alert alert-success bottom-alert" role="alert">You may notice some <a href="https://currentxchange.com/cxc-music" target="_blank" class="alert-link">features</a> are missing, like playlists, top charts, and Purple. Help fund our vision by supporting our <a href="https://www.kickstarter.com/projects/currentxchange/cxc-music-a-global-map-of-local-music" target="_blank" class="alert-link">kickstarter</a> and see these features very soon! Click this message to dismiss it for good!</div>');
+    $("#kick-notice").fadeIn(222);
+  }
+
+
+  $("#kick-notice").click(function(event){
+      $("#kick-notice").fadeOut(222);
+
+      Cookies.set('canWeKickIt', 1,
+        {
+          expires: 999999
+        });
+      event.stopPropagation();
+    });
+
+  $("#kick-notice a").click(function(event){
+      event.stopPropagation();
+    });
+
+
+
+$("div.selected").ready(function() {
+  $("div.selected").removeClass("highlight");
+});
+
+
+
+
 //--- Responsive ---\\
 if ($( document ).width() < 500)
 {
@@ -199,6 +239,9 @@ if ($( document ).width() < 500)
   $("#active-music-jumbo").css("left","10px");
   $("#close-jumbo, #close-add-music").css({top:"33px", left:"15px", position:"fixed" });
   $("#close-jumbo *, #close-add-music *").css({"max-width": (docWidth-20)+"px"});
-  $("div.leaflet-control-attribution").hide();
+  $("div.leaflet-control-attribution, #select-labels").hide();
+  $("#select-labels").hide();
+  $("#select-wrap *").css({float:"left"});
+
 
 }
