@@ -1028,8 +1028,6 @@ if (Cookies.get('getItSteemy') !== undefined && parseInt(Cookies.get('getItSteem
       });
 
 
-
-
     }
     if (err) {
             console.log("err is set");
