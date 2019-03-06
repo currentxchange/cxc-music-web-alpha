@@ -31,6 +31,7 @@ moodColors = {
   "light":"#CAFFEE",
   "":"#000000"
 };
+
 socialsSet = false;
 
 //--- Get Results ---\\
@@ -148,6 +149,16 @@ $.ajax({
   console.log(data);
   data = JSON.parse(data);
 
+  //--- Make Chart Display ---\\
+
+  data.forEach(function(song) {
+// --- Build Row --- \\
+
+// --- Insert into Chart Display --- \\
+
+
+});
+
 
 //--- Display Each Song ---\\
   data.forEach(function(song) {
@@ -191,7 +202,7 @@ $.ajax({
         if (Cookies.get('username') == 'douglasjames' || Cookies.get('username') == 'currentxchange')
         {
           // Add the button
-          $("#active-music-jumbo").prepend('<span class="labelOne" id="dougsDeleteButton">Make the Little Man Fly</span>');
+          $("#active-music-jumbo").prepend('<span class="labelOne" id="dougsDeleteButton">Make the Bad Man Fly</span>');
           $("#dougsDeleteButton").on('click', function()
           {
             // Check if it's really me
@@ -221,15 +232,10 @@ $.ajax({
                       }
                     });
                   }
-                } else {console.log('Dougs Delete No Res');} // END if (res)
+                } else {console.log('Dougs Delete Didnt work');} // END if (res)
 
               });
             });
-
-
-
-
-
         }
 
         //--- See if Title is to be added to the DB ---\\
@@ -243,11 +249,16 @@ $.ajax({
         $("#steem-engine").data('genre', song.genre).data('mood', song.mood).data('format', song.format).data('songid', song.songid);
 
 
-        //--- Make URL match the ID shown --- \\
-        urlGet.id = song.songid;
-        shareURL = location.protocol+'//'+location.host+location.pathname + "?" + $.param(urlGet);
-        history.pushState(null, '', shareURL);
-
+        if(typeof urlGet !== 'undefined'){
+          //--- Make URL match the ID shown Firefox --- \\
+          urlGet.id = song.songid;
+          shareURL = location.protocol+'//'+location.host+location.pathname + "?" + $.param(urlGet);
+          history.pushState(null, '', shareURL);
+        } else {
+          //--- Make URL match the ID shown in Chrome--- \\
+          shareURL = location.protocol+'//'+location.host+location.pathname + "?id=" + song.songid;
+          history.pushState(null, '', shareURL);
+        }
 
         // --- Set up blank jumbotron --- \\
         $("#active-music-jumbo").show();
@@ -257,6 +268,7 @@ $.ajax({
         $("#by-label, #up-button-in, #up-button-out").hide();
         $(".jumbo-togs").hide();
         $("#icons *").hide();
+        // --- Clear FB Share Data --- \\
 
 
 
@@ -361,11 +373,14 @@ $.ajax({
         $("#title-jumbo").html(unescape(song.title)).show();
         $("#by-label, #up-button-in, #up-button-out").show();
 
+        shareDesc = 'Listen to '+ song.title +' and find music from around the globe with cXc Music, a web app by @currentxchange';
+        shareTitle = song.title + ' on cXc Music';
+        shareThumb = song.thumbnail_url;
+
         // --- Metatron's Tags --- \\
         $("meta[property='og:image'], meta[name='twitter:image:src'], meta[name='twitter:image']").attr('content', song.thumbnail_url);
-        $("meta[name='description'], meta[property='og:description'], meta[name='twitter:description']").attr('content', ('Listen to '+ song.title +' and find music from around the globe with cXc Music, an app by @currentxchange'));
-        $("meta[property='og:title'], meta[name='twitter:title']").attr('content', (song.title + ' on cXc Music'));
-
+        $("meta[name='description'], meta[property='og:description'], meta[name='twitter:description']").attr('content', shareDesc);
+        $("meta[property='og:title'], meta[name='twitter:title']").attr('content', shareTitle);
 
 
         // --- Show Icons and HR --- \\
@@ -415,7 +430,7 @@ $.ajax({
 
       } // End If (YT)
 
-      if((truuue["sc"] !== null)){ //--- Get the Youtube Song Info from embeds.php
+      if((truuue["sc"] !== null)){ //--- Get the Soundcloud Song Info from embeds.php
         sc_only = {
           "sc":song['sc_link'] ? song['sc_link'] : null
         };
@@ -439,9 +454,15 @@ $.ajax({
             $(".jumbo-togs").show()
 
             // --- Metatron's Tags --- \\
+
+
+            shareDesc = 'Listen to '+ song.title +' and find music from around the globe with cXc Music, a web app by @currentxchange';
+            shareTitle = song.title + ' on cXc Music';
+            shareThumb = song.thumbnail_url;
             if($("meta[property='og:image']").attr('content') == 'images/cXc-Alpha-App-2.1[600].png' )
             {
-              $("meta[property='og:image'], meta[name='twitter:image:src'], meta[name='twitter:image']").attr('content', song.thumbnail_url);
+
+              $("meta[property='og:image'], meta[name='twitter:image:src'], meta[name='twitter:image']").attr('content', shareThumb);
             }
 
             if($("meta[property='og:description']").attr('content') == 'Find underground music from around the world on cXc Music, an app by @currentxchange' )
@@ -455,10 +476,9 @@ $.ajax({
             }
 
             // --- Add title if no YT title already --- \\
-            if(($("#title-jumbo").text() == "Loading..."))
+            if(($("#title-jumbo").text() == "Loading...") || ($("#title-jumbo").text() == "Mystery Spotify Song"))
             {
               $("#title-jumbo").html(unescape(song.title)).show();
-
 
             }
              console.log(song);
@@ -470,19 +490,19 @@ $.ajax({
             $("#steem-engine").data('sc_thumbnail_url', unescape(song.thumbnail_url));
 
             $("#steem-engine").data('desc', unescape(song.description)); // Only SC has a description
-            if ($("#steem-engine").data('title') == undefined){
+            if ($("#steem-engine").data('title') == undefined || ($("#steem-engine").data('title') == "Mystery Spotify Song")){
                $("#steem-engine").data('title', unescape(song.title));
             }
 
             // --- Send Post to Steemit --- \\
             if(truuue.spot == null){
               serveScampi();
-
-              // --- Add title to DB --- \\
-              sendTitle();
             } else {
               console.log("scampi 2 not served");
             }
+
+            // --- Add title to DB --- \\
+            sendTitle();
 
             //--- Call Social Maker ---\\
              if (!(socialsSet)){
@@ -498,7 +518,7 @@ $.ajax({
         }); // End SoundCloud Call
       } // End If (Sc)
 
-      if((truuue.spot !== null)){ //--- Get the Youtube Song Info from embeds.php
+      if((truuue.spot !== null)){ //--- Get the Spotify Song Info from embeds.php
         spot_only = {
           "spot": song.spot_link ? song.spot_link : null
         };
@@ -518,15 +538,19 @@ $.ajax({
         $("#spot-icon").html("<a title='Listen on Spotify' target='_blank' href='https://open.spotify.com/track/"+spot_only.spot+"'><img alt='Spotify Icon Link' src='images/spot-wht.png' /></a>").show();
 
         // --- Add dummy title if no title already --- \\
-        if(($("#title-jumbo").text() == "Loading..."))
+        if(($("#title-jumbo").text() == "Loading...") && ($("#steem-engine").data('title') == undefined))
         {
-          $("#title-jumbo").html("Mystery Spotify Song").show();
+          $("#title-jumbo").html(unescape(song.title)).show();
         }
         // --- Show Icon Title and HR --- \\
         $(".jumbo-togs").show();
 
 
         // --- Metatron's Tags --- \\
+        shareDesc = 'Listen to '+ song.title +' and find music from around the globe with cXc Music, a web app by @currentxchange';
+        shareTitle = song.title + ' on cXc Music';
+        shareThumb = song.thumbnail_url;
+
         $("meta[property='og:image'], meta[name='twitter:image:src'], meta[name='twitter:image']").attr('content', song.thumbnail_url);
         if(($("#title-jumbo").text() == "Loading...") || ($("#title-jumbo").text() == "Mystery Spotify Song")){
           $("meta[name='description'], meta[property='og:description'], meta[name='twitter:description']").attr('content', 'Find underground music from around the world on cXc Music, an app by @currentxchange');
@@ -534,7 +558,11 @@ $.ajax({
         }
         if($("meta[property='og:image']").attr('content') == 'images/cXc-Alpha-App-2.1[600].png' )
         {
-          $("meta[property='og:image'], meta[name='twitter:image:src'], meta[name='twitter:image']").attr('content', song.thumbnail_url);
+
+
+
+          $("meta[property='og:image'], meta[name='twitter:image:src'], meta[name='twitter:image']").attr('content', shareThumb);
+
         }
 
 
@@ -544,7 +572,7 @@ $.ajax({
 
 
         if ($("#steem-engine").data('title') == undefined){
-          $("#steem-engine").data('title', "Mystery Spotify Song");
+          $("#steem-engine").data('title', unescape(song.title));
         }
 
         // --- Send Post to Steemit --- \\
@@ -658,10 +686,10 @@ makeSocial = function(){
   //--- jsSocials on Jumbo ---\\
   if(!!(document.documentElement.ontouchstart))
   {
-    shareOpts = ["twitter", "facebook", "stumbleupon", "messenger", "whatsapp", "telegram"];
+    shareOpts = ["twitter", {share: "facebook", label: "Share", logo: "fa fa-facebook"}, "stumbleupon", "messenger", "whatsapp", "telegram"];
   } else
   {
-    shareOpts = ["twitter", "facebook", "stumbleupon", "pocket", "telegram"];
+    shareOpts = ["twitter", {share: "facebook", label: "Share", logo: "fa fa-facebook"}, "stumbleupon", "pocket", "telegram"];
   }
 
   $("#share-music").jsSocials({
@@ -669,10 +697,25 @@ makeSocial = function(){
     shares: shareOpts,
     showCount: false,
     shareIn: "popup"
-
   });
+
+  $(".jssocials-share-facebook *").unbind("click").on("click", function(e){
+    e.stopPropagation();
+    shareOverrideOGMeta(window.location.href, shareTitle, shareDesc, shareThumb);
+  });
+
   socialsSet = false;
-};
+}; //END MakeSocial()
+
+
+
+
+
+$(document).keydown(function(e) {
+    if(e.which == 78) {
+      shareOverrideOGMeta(window.location.href, shareTitle, shareDesc, shareThumb);
+    }
+});
 
 
 
@@ -702,8 +745,7 @@ sendTitle = function(){
     sendyTitle = $("#steem-engine").data("title");
     sendySongid = $("#steem-engine").data("songid");
 
-                  console.log(sendySongid);
-                                console.log(sendyTitle);
+  //  console.log(sendySongid); console.log(sendyTitle);
         $.ajax({
         method:"post",
         url:'php/title.php',
@@ -1028,12 +1070,15 @@ if (Cookies.get('getItSteemy') !== undefined && parseInt(Cookies.get('getItSteem
       });
 
 
+
+
     }
     if (err) {
             console.log("err is set");
 
             //ADD Error Information asking user to login
     }
+
 
 }); //END scapi.me(function (err, res)
 // --- Send Post to Steemit --- \\
