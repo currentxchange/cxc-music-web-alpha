@@ -246,8 +246,8 @@ if (  Cookies.get('curMood') || Cookies.get('curGenre') || Cookies.get('curForma
     //--- Match Active LIs with class to show they are active ---\\
     if (Cookies.get('results') !== undefined)
     {
-        makeActiveResults = Cookies.get('results');
-        $("#results" + makeActiveResults + "").attr("style", "background-color:rgba(255,255,0,.2)");
+      makeActiveResults = Cookies.get('results');
+      $("#results" + makeActiveResults + "").attr("style", "background-color:rgba(255,255,0,.2)");
     }
   }
 

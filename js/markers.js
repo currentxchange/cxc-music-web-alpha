@@ -7,7 +7,7 @@ genreColors = {
   "reggae":"green",
   "world":"#397628",
   "jazz":"#b2ffff",
-  "fusion":"00ffff",
+  "fusion":"#00ffff",
   "conscious":"#A55CE7",
   "pop":"#FF6FD7",
   "classical":"#ffd700",
@@ -133,7 +133,7 @@ if (Object.keys($_GET).length > 1){
 }
 
 
-console.log($_GET);
+//console.log($_GET);
 
 
 
@@ -146,18 +146,86 @@ $.ajax({
   context: document.body,
   contentType: 'json'
 }).done(function(data) {
-  console.log(data);
+  //console.log(data);
   data = JSON.parse(data);
 
   //--- Make Chart Display ---\\
-
+  totChartRows = data.length;
+  curChartRow = data.length; // Gets the # on the charts
   data.forEach(function(song) {
+
 // --- Build Row --- \\
+chartRow = $('<div class="chart-row-container"></div>');
+
+chartRow.append($('<span class="chart-number">'+((totChartRows - curChartRow)+ 1) +'</span>'));
+
+// --- First Line --- \\
+chartFirstLine = $("<div>",{
+  class:"chart-first-line"
+});
+chartTitle = $('<h2 class="chart-title"  id="chartId'+song.songid+'">'+song.title+'</h2>'); // END First Line Append
+
+
+chartFirstLine.append(chartTitle);
+
+chartRow.append(chartFirstLine);
+
+// --- Second Line--- \\
+secondLine = $('<div class="chart-second-line"></div>');
+chartVotesDiv = $('<div class="chart-votes"></div>');
+
+if(!song.ups){song.ups = 0;}
+chartVotesDiv.append('<span class="fa-sm chart-sol-ups-count"> '+song.ups+'</span>');
+
+if(!!song.bigups){
+  chartVotesDiv.append('<span class="fa-sm chart-big-ups-count" > '+song.bigups+'</span>');
+}
+
+if(!!song.blueups){
+  chartVotesDiv.append('<span class="fa-sm chart-blue-ups-count"> '+song.blueups+'</span>');
+}
+
+// --- Prepend total UPs count last to preserve song.ups --- \\
+if (!!song.blueups){song.ups += song.blueups;}
+chartVotesDiv.prepend('<span class="fa-sm chart-ups-count"> '+song.ups+'</span>');
+
+
+chartGenreMood = $('<div class="chart-genre-mood"></div>');
+
+if(!!song.genre){
+  chartGenre = $('<span class="chart-genre labelOne" style="color:'+genreColors[song.genre]+'">'+song.genre+'</span>');
+  chartGenre.on("click", function(){
+    Cookies.set('curGenre', song.genre); // Set CooOOOookie
+    window.location = location.protocol+'//'+location.host+location.pathname;
+
+  }); // END chartGenre.on("click"
+  chartGenreMood.append(chartGenre);
+} // END if(!!song.genre)
+if(!!song.mood){
+  chartMood = $('<span class="chart-mood labelOne" style="color:'+moodColors[song.mood]+'">'+song.mood+'</span>');
+  chartMood.on("click", function(){
+    Cookies.set('curMood', song.mood); // Set CooOOOookie
+    window.location = location.protocol+'//'+location.host+location.pathname;
+  })
+  // $("#defFormat" + name + "")
+  chartGenreMood.append(chartMood);
+}
+
+
+
+// --- Add Divs to Second Line --- \\
+secondLine.append(chartVotesDiv).append(chartGenreMood);
+
+chartRow.append(secondLine);
+
+chartRow.append('<hr class = "chart-divider" />');
+
+
 
 // --- Insert into Chart Display --- \\
-
-
-});
+$("#charts-jumbo").append(chartRow);
+curChartRow--;
+}); // END Make Chart Display Foreach
 
 
 //--- Display Each Song ---\\
@@ -176,6 +244,9 @@ $.ajax({
           radius: cmRadius,
           title: song.title,
           songid: song.songid,
+          ups:song.ups,
+          blueups:song.blueups,
+          bigups:song.bigups,
         //  genre: song.genre,
         //  mood: song.mood,
           //format: song.format,
@@ -189,6 +260,10 @@ $.ajax({
 
         //--- Clean Steem Engine ---\\
         $("#steem-engine").removeData();
+
+        //--- Add Active Music Return Button to Chart Display ---\\
+        $("#active-music-return-button").show();
+
 
         //--- Clean Up Icons ---\\
         $("#up-button-in").css("opacity", .2);
@@ -210,7 +285,7 @@ $.ajax({
               console.log(res, err);
                 if (res)
                 {
-                                        console.log('Dougs Delete Res found');
+                    console.log('Dougs Delete Res found');
                     var account = res.account;
                     if (account.name == "douglasjames" || account.name == "currentxchange")
                     {
@@ -262,6 +337,14 @@ $.ajax({
 
         // --- Set up blank jumbotron --- \\
         $("#active-music-jumbo").show();
+        // --- Hide MGS Selectors if need-be --- \\
+        if ($( document ).width() < 500)
+        {
+          $("#selectors-holder").hide();
+          $("#bottom-menus").hide();
+        }
+
+
         $("#title-jumbo").text("Loading...");
         // --- Hide Shit --- \\
         $("#active-music-jumbo .sc-play, #active-music-jumbo .spot-play, #active-music-jumbo .yt-vid, #profiles-jumbo .yt-profile, #profiles-jumbo .sc-profile, #profiles-jumbo .spot-profile, #yt-download").html('');
@@ -648,6 +731,7 @@ $.ajax({
                 // successful up action
                 $("#up-button-in").css("opacity", 1);
                 $("#up-button-out").animate({bottom: '4000px'});
+                $("chartId"+song.songid+" ")
                 Cookies.set('recentUp', '1', { expires: (1/288) });
                 steemVote();
 
@@ -670,6 +754,14 @@ $.ajax({
       if(!isNaN($_GET.id) && $_GET.id == marker.options.songid ){
         marker.fire('click');
       }
+
+      $("#chartId"+ marker.options.songid).on('click', function(){
+        marker.fire('click');
+        if ($(window).width() < 481) {
+          $("#charts-jumbo").hide();
+        }
+      });
+
 
   });
 
@@ -706,17 +798,6 @@ makeSocial = function(){
 
   socialsSet = false;
 }; //END MakeSocial()
-
-
-
-
-
-$(document).keydown(function(e) {
-    if(e.which == 78) {
-      shareOverrideOGMeta(window.location.href, shareTitle, shareDesc, shareThumb);
-    }
-});
-
 
 
 upit = function(upData)
@@ -947,7 +1028,7 @@ if (Cookies.get('getItSteemy') !== undefined && parseInt(Cookies.get('getItSteem
         }
       }
       thePost += "\n### Shared via [music.cxc.world](https://music.cxc.world/?id="+scampiData.songid+"&locLat="+Cookies.get('locLat')+"&locLng="+Cookies.get('locLng')+"&zoom="+Cookies.get('zoom')+")\n\n";
-      thePost += "(";
+
 
       thePost += "\n</center>\n";
       thePost += "\n<hr>\n";

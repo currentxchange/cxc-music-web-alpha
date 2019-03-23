@@ -44,6 +44,7 @@ var northEast = L.latLng(90, 180);
     minZoom:2,
     doubleClickZoom: false,
     zoomControl: false,
+    preferCanvas:true,
     maxBounds: L.latLngBounds(southWest, northEast),
     maxBoundsViscosity: 0.0
   });
@@ -60,13 +61,21 @@ $("#close-jumbo").click(function() {
   $("meta[property='og:image'], meta[name='twitter:image:src'], meta[name='twitter:image']").attr('content', 'images/cXc-Alpha-App-1[600].png');
   $("meta[name='description'], meta[property='og:description'], meta[name='twitter:description']").attr('content', 'Find underground music from around the world on the cXc Music Mapp (Alpha)');
   $("meta[property='og:title'], meta[name='twitter:title']").attr('content', 'cXc Music Mapp (Alpha)');
-
+  $("#selectors-holder").show();
+  $("#bottom-menus").show();
 
 });
 
 $("#close-add-music").click(function() {
   $("#slide-left").hide();
   $("#selectors-holder").show();
+  $("#bottom-menus").show();
+});
+
+$("#close-charts").click(function() {
+  $("#charts-jumbo").hide();
+  $("#selectors-holder").show();
+  $("#bottom-menus").show();
 });
 
 
@@ -74,6 +83,19 @@ $("#close-add-music").click(function() {
   $("#active-music-jumbo").hide()
 }) */
 
+//--- Show the Charts when Return Button Clicked ---\\
+
+$("#chart-return-button").click(function() {
+  $("#charts-jumbo").show();
+  $("#slide-left").hide();
+  $("#active-music-jumbo").hide();
+});
+
+$("#active-music-return-button").click(function() {
+  $("#charts-jumbo").hide();
+  $("#slide-left").hide();
+  $("#active-music-jumbo").show();
+});
 
 
 
@@ -231,17 +253,40 @@ $("div.selected").ready(function() {
 
 
 
-//--- Responsive ---\\
-if ($( document ).width() < 500)
+// === Responsive === \\
+$(window).bind("resize", function () {
+    console.log($(this).width())
+    fontSizeToggler();
+    if ($(this).width() < 481) {
+
+        $('#active-music-jumbo, #slide-left, #charts-jumbo').addClass('container-fluid')
+        $('iframe').attr('width', '100%') //.addClass('row')
+
+        // --- Active Music Return --- \\
+        if($("#title-jumbo").text() == "Loading..."){
+          $("#active-music-return-button").hide();
+        } else {
+          $("#active-music-return-button").show();
+        }
+      //  $('.ytvid iframe').attr('height', '100%')
+    } else if ($(this).width() > 480) {
+      //$('#active-music-jumbo, #slide-left, #charts-jumbo').removeClass('container-fluid')
+    }
+}).trigger('resize');
+
+
+
+
+// --- Fonts in Charts --- \\
+
+function fontSizeToggler()
 {
-  docWidth = $( document ).width();
-  $("#active-music-jumbo, #slide-left").width( (docWidth - 20));
-  $("#active-music-jumbo").css("left","10px");
-  $("#close-jumbo, #close-add-music").css({top:"33px", left:"15px", position:"fixed" });
-  $("#close-jumbo *, #close-add-music *").css({"max-width": (docWidth-20)+"px"});
-  $("div.leaflet-control-attribution, #select-labels").hide();
-  $("#select-labels").hide();
-  $("#select-wrap *").css({float:"left"});
-
-
+  if ($( "#charts-jumbo" ).width() < 300)
+  {
+    console.log("less than fired");
+    $('h2.chart-title').css("font-size","1em")
+  } else {
+        console.log("greater than fired");
+    $('h2.chart-title').css("font-size","2em")
+  }
 }
