@@ -76,8 +76,20 @@ if (null !== $getter['sort'])
   {
     $query .= "created ASC ";
   }
+  else if ($getter['sort'] == 'ups')
+  {
+    $query .= "ups DESC ";
+  }
+  else if ($getter['sort'] == 'blueups')
+  {
+    $query .= "blueups DESC ";
+  }
+  else if ($getter['sort'] == 'bigups')
+  {
+    $query .= "bigups DESC ";
+  }
 } else {
-  $query .= "ORDER BY created DESC ";
+  $query .= "ORDER BY ups DESC ";
 }
 
 
@@ -86,7 +98,7 @@ if (null !== $getter['results'])
 {
    $query .= "LIMIT ". mysqli_real_escape_string($connection, $getter['results']);
 } else {
-  $query .= "LIMIT 333";
+  $query .= "LIMIT 33333";
 }
 
 
