@@ -126,6 +126,7 @@ session_start();
 	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <link rel="stylesheet" href="style/main.css" />
+<link rel="stylesheet" href="style/responsive.css" />
 
 <!-- F*nting Awesome!! -->
 <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -142,15 +143,13 @@ session_start();
 </head>
 <body>
 		<?php include 'search_selectors.php'; ?>
-	<div id="chart-toggle" class="labelOne static-selectah">
-		charts
-	</div>
 	<div class="jumbotron" id="slide-left">
 		<?php include 'slide_left.php'; ?>
 	</div>
 
 	<div class="jumbotron" id="active-music-jumbo">
 		<div id="close-jumbo"></div>
+		<span id="chart-return-button"></span>
 		<div id="active-music-jumbo-bg"></div>
 		<div id="profiles-jumbo">
 			<span id="by-label">by:</span>

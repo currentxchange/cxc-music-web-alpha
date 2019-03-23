@@ -1,6 +1,9 @@
-<!--- Selectors for Genre Mood,formt --->
+<!--- Selectors for Genre Mood, format BUT WAIT< THERES charts --->
 <div id="selectors-holder">
 
+<span id="chart-toggle" class="labelOne static-selectah">
+charts
+</span>
 
 <span id="genre-selector" class="labelOne static-selectah">
 genre
