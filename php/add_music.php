@@ -8,19 +8,25 @@ $postMalone = $_POST; // --- White Iverson
 
 //--- Build Insert query --- \\
 if(isset($_POST['username'])){
-  $username = $_POST['username'];
+  $username = mysqli_real_escape_string($connection, $_POST['username']);
 } else {
   $username = "1"; // Query users DB where steemname = steemname provided to find this
 }
-$lat = $postMalone['lat']; // Get this from value passed from click into form
-$lng = $postMalone['lng'];
+$lat = mysqli_real_escape_string($connection, $postMalone['lat']); // Get this from value passed from click into form
+$lng = mysqli_real_escape_string($connection, $postMalone['lng']);
 $mood = mysqli_real_escape_string($connection, $postMalone['mood']);
 $genre = mysqli_real_escape_string($connection, $postMalone['genre']);
 $format = mysqli_real_escape_string($connection, $postMalone['format']);
 $sc_link = ($postMalone['sc'] !== "") ? ("'".mysqli_real_escape_string($connection, $postMalone['sc'])."'") : "NULL";
 $yt_link = ($postMalone['yt'] !== "") ? ("'".mysqli_real_escape_string($connection, $postMalone['yt'])."'") : "NULL";
 $spot_link = ($postMalone['spot'] !== "") ? ("'".mysqli_real_escape_string($connection, $postMalone['spot'])."'") : "NULL";
+$sc_author = "NULL";
 
+if ($sc_link !== "NULL"){
+  //$spot_author = "'".explode("/", mysqli_real_escape_string($connection, $postMalone['spot']))[0]."'";
+  $sc_author = explode("/", $sc_link)[0];
+  $sc_author = $sc_author."'"; // Previous ' is given in the $sc_link line
+}
 
 
 $legit = true;
@@ -55,7 +61,7 @@ if($spot_link !== "" && $spot_link !== null && $spot_link !== null){
 
 if ($legit) // URL is legit
 {
-  $query = "INSERT INTO `song` (`songid`, `created`, `username`, `lat`, `lng`, `mood`, `genre`, `format`, `cxc_views`, `sc_link`, `yt_link`, `spot_link`) VALUES (NULL, CURRENT_TIMESTAMP, '$username', '$lat', '$lng', '$mood', '$genre', '$format', '0', $sc_link, $yt_link, $spot_link);";
+  $query = "INSERT INTO `song` (`songid`, `created`, `username`, `lat`, `lng`, `mood`, `genre`, `format`, `cxc_views`, `sc_link`, `yt_link`, `spot_link`, `soundcloud_id_author`) VALUES (NULL, CURRENT_TIMESTAMP, '$username', '$lat', '$lng', '$mood', '$genre', '$format', '0', $sc_link, $yt_link, $spot_link, $sc_author);";
 
 
   $result = mysqli_query($connection , $query); // --- Query
@@ -72,7 +78,8 @@ if ($legit) // URL is legit
   }
   else
   {
-    echo '{"success":false}';
+    echo '{"success":false, "info":'.$query.'}';
+
 
     //echo mysqli_error($connection); // Debugging
     //echo $query;
