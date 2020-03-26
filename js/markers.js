@@ -12,7 +12,7 @@ genreColors = {
   "pop":"#FF6FD7",
   "classical":"#ffd700",
   "blues-soul":"#0080ff",
-  "country":"#280600",
+    "country":"#b5651d",
   "":"#000000"
 };
 
@@ -20,17 +20,20 @@ moodColors = {
   "chill":"#609EA8",
   "happy":"#f8ca00",
   "trance":"#1ec0ff",
-  "dance":"#ff69b4", // Deep Sky
-  "party":"#e53a40",
+  "dance":"#E325C7", // Deep Sky
+  "party":"#ffa500",
   "joyful":"#F1C232",
   "energizing":"#32cd32",
-  "angry":"#350000",
-  "dark":"#000000",
+  "angry":"#D80026",
+  "dark":"#696969",
   "melancholic":"#ACACFF",
-  "heavy":"#310B1E",
+  "heavy":"#A37A00",
   "light":"#CAFFEE",
   "":"#000000"
 };
+//--- Fibonacci Seriec ---\\
+golden = [0,1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987,1597,2584,4181,6765,10946,17711,28657,46368,75025,121393,196418,317811,514229,832040,1346269,2178309,3524578,5702887,9227465,14930352,24157817,39088169,63245986];
+
 
 socialsSet = false;
 
@@ -133,7 +136,7 @@ if (Object.keys($_GET).length > 1){
 }
 
 
-//console.log($_GET);
+//
 
 
 
@@ -146,7 +149,7 @@ $.ajax({
   context: document.body,
   contentType: 'json'
 }).done(function(data) {
-  //console.log(data);
+  //
   data = JSON.parse(data);
 
   //--- Make Chart Display ---\\
@@ -175,19 +178,19 @@ secondLine = $('<div class="chart-second-line"></div>');
 chartVotesDiv = $('<div class="chart-votes"></div>');
 
 if(!song.ups){song.ups = 0;}
-chartVotesDiv.append('<span class="fa-sm chart-sol-ups-count"> '+song.ups+'</span>');
+chartVotesDiv.append('<span class="fa-sm chart-sol-ups-count">  '+song.ups+'</span>');
 
 if(!!song.bigups){
-  chartVotesDiv.append('<span class="fa-sm chart-big-ups-count" > '+song.bigups+'</span>');
+  chartVotesDiv.append('<span class="fa-sm chart-big-ups-count" >  '+song.bigups+'</span>');
 }
 
 if(!!song.blueups){
-  chartVotesDiv.append('<span class="fa-sm chart-blue-ups-count"> '+song.blueups+'</span>');
+  chartVotesDiv.append('<span class="fa-sm chart-blue-ups-count">  '+song.blueups+'</span>');
 }
 
 // --- Prepend total UPs count last to preserve song.ups --- \\
 if (!!song.blueups){song.ups += song.blueups;}
-chartVotesDiv.prepend('<span class="fa-sm chart-ups-count"> '+song.ups+'</span>');
+chartVotesDiv.prepend('<span class="fa-md chart-ups-count"> '+song.ups+'</span>');
 
 
 chartGenreMood = $('<div class="chart-genre-mood"></div>');
@@ -231,12 +234,39 @@ curChartRow--;
 //--- Display Each Song ---\\
   data.forEach(function(song) {
 
-        cmRadius = 20;
-      if (Cookies.get('dotStyle') == 'ups' ){
-        cmRadius = (song.ups + 2);
-      } else if (Cookies.get('dotStyle') == 'views') {
-        cmRadius = Math.ceil(((song.cxc_views + 12) / 24));
+if (Cookies.get('dotStyle') && Cookies.get('dotStyle') !== 'ups' )
+{
+  if (Cookies.get('dotStyle') == 'same' )
+  {
+  cmRadius = 20;
+
+  } else if (Cookies.get('dotStyle') == 'views')// Use Golden Sequence to get size
+  {
+    var i;
+    for (i = 0; i < golden.length; i++) {
+
+      if (song.cxc_views < (golden[i] + 1))
+      {
+        cmRadius = ((i+3) * 2); // Set Marker Radius to Position of Fib Number.
+        break;
       }
+    }
+
+  } // END if (Cookies.get('dotStyle') != undefined ){
+
+} // END if (Cookies.get('dotStyle') && Cookies.get('dotStyle') !== 'ups' )
+else
+{ // Make display by UPs
+  var i;
+  for (i = 0; i < golden.length; i++) {
+    if (song.ups < (golden[i] + 1))
+    {
+      cmRadius = ((i+3) * 2); // Set Marker Radius to Position of Fib Number.
+      break;
+    }
+  }
+}//FINAL END if (Cookies.get('dotStyle') && Cookies.get('dotStyle') !== 'ups' )
+
 
       var marker = new cxcCircleMarker(
         [song.lat,song.lng],
@@ -282,10 +312,10 @@ curChartRow--;
           {
             // Check if it's really me
             scapi.me(function (err, res) {
-              console.log(res, err);
+
                 if (res)
                 {
-                    console.log('Dougs Delete Res found');
+
                     var account = res.account;
                     if (account.name == "douglasjames" || account.name == "currentxchange")
                     {
@@ -299,15 +329,15 @@ curChartRow--;
                   })
                   .done(
                     function (result){
-                      console.log('Dougs Delete fired');
-                      console.log(result);
+
+
                       if (result == "success")
                       {
                         window.location = location.protocol+'//'+location.host+location.pathname;
                       }
                     });
                   }
-                } else {console.log('Dougs Delete Didnt work');} // END if (res)
+                } else {
 
               });
             });
@@ -337,6 +367,7 @@ curChartRow--;
 
         // --- Set up blank jumbotron --- \\
         $("#active-music-jumbo").show();
+        $("#currency-wrapper").addClass("open-music-desk");
         // --- Hide MGS Selectors if need-be --- \\
         if ($( document ).width() < 500)
         {
@@ -371,7 +402,7 @@ curChartRow--;
           $("#post-to-steem").html('Post to Steemit');
           $("#post-to-steem").on('click', function()
           {
-            console.log("Send from post called");
+
             Cookies.set('getItSteemy', song.songid);
             serveScampi();
             $("#post-to-steem").html("sending..");
@@ -387,10 +418,10 @@ curChartRow--;
               var flagType = $(this).attr("value");
               // Check if user is logged i
               scapi.me(function (err, res) {
-                console.log(res, err);
+
                   if (res)
                   {
-                      console.log('Dougs Delete Res found');
+
                       var account = res.account;
 
                       $.ajax({
@@ -405,8 +436,8 @@ curChartRow--;
                     })
                     .done(
                       function (result){
-                        console.log('Flag Worked');
-                        console.log(result);
+
+
                         if (result == "success")
                         {
                           $("#flag-options").unbind('click')
@@ -417,7 +448,7 @@ curChartRow--;
                         }
                       });
 
-                  } else {console.log('Flag did not work.');} // END if (res)
+                  } else {
 
                 });//End scampi
 
@@ -429,8 +460,8 @@ curChartRow--;
 
         }// End if(scampiSauce)
 
-      console.log(truuue);
-      //console.log(this.options.songid);
+
+      //
 
 
       if((truuue.yt !== null)){  //--- Get the Youtube Song Info from embeds.php
@@ -472,7 +503,7 @@ curChartRow--;
         $("#profiles-jumbo .yt-profile").html(' <a href="'+song.author_url+'" title="'+song.author_name+' on Youtube">'+song.author_name+'</a> ').show();
         // --- Youtube Icon --- \\
         $("#yt-icon").html("<a title='Watch on YouTube' target='_blank' href='https://www.youtube.com/watch?v="+yt_only.yt+"'><img alt='YouTube Icon Link' src='images/yt-wht.png' /></a>").show();
-        console.log(song);
+
 
         //$("#share-music").jsSocials({ text: unescape(song.title)+" ~ Find underground music from around the world on cXc Music"});
 
@@ -490,12 +521,12 @@ curChartRow--;
              // --- Add title to DB --- \\
              sendTitle();
            } else {
-             console.log("scampi1 not served");
+
            }
 
           //--- Call Social Maker ---\\
            if (!(socialsSet)){
-             console.log('yt makesocial');
+
             setTimeout(makeSocial, 1000);
             socialsSet = true;
            }
@@ -503,9 +534,9 @@ curChartRow--;
 
 
         }).fail(function(error){
-          console.log("YT Embed Failed");
-          console.log("scampi 1 Failed");
-          console.log(error);
+
+
+
 
 
         }); // End Youtube Call
@@ -564,7 +595,7 @@ curChartRow--;
               $("#title-jumbo").html(unescape(song.title)).show();
 
             }
-             console.log(song);
+
 
              // --- Build steem-engine --- \\
             $("#steem-engine").data('sc_author_name', unescape(song.author_name));
@@ -581,7 +612,7 @@ curChartRow--;
             if(truuue.spot == null){
               serveScampi();
             } else {
-              console.log("scampi 2 not served");
+
             }
 
             // --- Add title to DB --- \\
@@ -589,15 +620,15 @@ curChartRow--;
 
             //--- Call Social Maker ---\\
              if (!(socialsSet)){
-               console.log('sc mks');
+
               setTimeout(makeSocial, 1000);
               socialsSet = true;
              }
 
 
         }).fail(function(error){
-          console.log("SC Embed Failed");
-          console.log(error);
+
+
         }); // End SoundCloud Call
       } // End If (Sc)
 
@@ -617,7 +648,7 @@ curChartRow--;
          //window.song = song;
 
         $("#active-music-jumbo .spot-play").html(unescape(song.html)).show();
-         console.log(song);
+
         $("#spot-icon").html("<a title='Listen on Spotify' target='_blank' href='https://open.spotify.com/track/"+spot_only.spot+"'><img alt='Spotify Icon Link' src='images/spot-wht.png' /></a>").show();
 
         // --- Add dummy title if no title already --- \\
@@ -666,7 +697,7 @@ curChartRow--;
 
         //--- Call Social Maker ---\\
          if (!(socialsSet)){
-           console.log('spot made Socials');
+
           setTimeout(makeSocial, 1000);
           socialsSet = true;
          }
@@ -674,9 +705,9 @@ curChartRow--;
 
 
       }).fail(function(error){
-          console.log("Spot Embed Failed");
 
-          console.log(error);
+
+
 
         }); // End Spot Call
       } // End If (Spot)
@@ -716,7 +747,7 @@ curChartRow--;
           //--- Increment Ups ---\\
           $("#up-button-in, #up-button-out").on('click', function()
           {
-            console.log("up click fired");
+
 
             $.post( "php/ups.php",
             {
@@ -746,7 +777,7 @@ curChartRow--;
 
     )
       .addTo(mymap)
-      .bindTooltip( song.title, {className: 'marker-tooltip'});
+      .bindTooltip( (song.title ? song.title: "Brand New "+(song.genre ? (song.genre[0].toUpperCase() + song.genre.substring(1)+ " "):"")+"Music!"), {className: 'marker-tooltip'});
 
 
 
@@ -769,19 +800,19 @@ curChartRow--;
 
 
 }).fail(function(error){
-  console.log(error);
+
 
 });
 
 makeSocial = function(){
-  console.log("socials called");
+
   //--- jsSocials on Jumbo ---\\
   if(!!(document.documentElement.ontouchstart))
   {
-    shareOpts = ["twitter", {share: "facebook", label: "Share", logo: "fa fa-facebook"}, "stumbleupon", "messenger", "whatsapp", "telegram"];
+    shareOpts = ["twitter", {share: "facebook", label: "Share", logo: "fa fa-facebook"}, "stumbleupon", "messenger", "whatsapp", "copy"];
   } else
   {
-    shareOpts = ["twitter", {share: "facebook", label: "Share", logo: "fa fa-facebook"}, "stumbleupon", "pocket", "telegram"];
+    shareOpts = ["twitter", {share: "facebook", label: "Share", logo: "fa fa-facebook"}, "stumbleupon", "pocket", "copy"];
   }
 
   $("#share-music").jsSocials({
@@ -791,10 +822,24 @@ makeSocial = function(){
     shareIn: "popup"
   });
 
+
   $(".jssocials-share-facebook *").unbind("click").on("click", function(e){
     e.stopPropagation();
     shareOverrideOGMeta(window.location.href, shareTitle, shareDesc, shareThumb);
   });
+
+  $(".jssocials-share-copy *").unbind("click").on("click", function(e){
+    e.stopPropagation();
+    var $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val(window.location.href).select();
+    document.execCommand("copy");
+    $temp.remove();
+
+    $("#alert-holder")
+      .prepend('<div id="copy-success" class="alert alert-success bottom-alert" role="alert">Link copied to clipboard.</div>');
+      $("#copy-success").fadeIn(222).delay(2000).fadeOut(622);
+    });
 
   socialsSet = false;
 }; //END MakeSocial()
@@ -802,7 +847,7 @@ makeSocial = function(){
 
 upit = function(upData)
 {
-  console.log("worked UP");
+
   //--- Check for cookie of most recent vote ---\\
 
   //--- Increment UPs ---\\
@@ -811,7 +856,7 @@ upit = function(upData)
     success: upit(upData),
     error: function(err)
     {
-      console.log(err);
+
     }
   });
 };
@@ -826,7 +871,7 @@ sendTitle = function(){
     sendyTitle = $("#steem-engine").data("title");
     sendySongid = $("#steem-engine").data("songid");
 
-  //  console.log(sendySongid); console.log(sendyTitle);
+  //
         $.ajax({
         method:"post",
         url:'php/title.php',
@@ -838,7 +883,7 @@ sendTitle = function(){
       }) // END .sumbit()
       .done(
         function (result){
-          console.log(result);
+
         }
       )
       .fail(
@@ -858,7 +903,7 @@ sendTitle = function(){
 steemVote = function(){
 
   scapi.me(function (err, res) {
-    console.log(res, err);
+
       if (res)
       {
         var account = res.account;
@@ -875,15 +920,15 @@ steemVote = function(){
         function (result){
           account = res.account;
 
-          console.log(result);
+
           var theSteemer = result[0];
-        console.log(theSteemer);
+
 
         scapi.vote(account.name, theSteemer.steem_author, theSteemer.permalink, 10000, function (err, res) {
-          console.log(err, res);
+
           if (res)
             {
-              console.log("vote was sendy AF");
+
               $("#alert-holder")
                 .prepend('<div id="steem-up-success" class="alert alert-success bottom-alert" role="alert">Your UP was registered on Steemit.</div>');
               $("#steem-up-success").fadeIn(222).delay(6000).fadeOut(222);
@@ -910,12 +955,12 @@ steemVote = function(){
 // --- Send Post to Steemit --- \\
 serveScampi = function(){
     scampiData = $("#steem-engine").data();
-    console.log("serveScampi called");
+
 
 // --- Code to make reblog instead of Post, commented because reblog not working --- \\
 /*
 scapi.me(function (err, res) {
-  console.log(res, err);
+
     if (res)
     { // Load info for rest of calls and load info to DOM
       //NEED = Author of Post on SteemIt, PermURL
@@ -933,7 +978,7 @@ scapi.me(function (err, res) {
       function (result){
         var account = res.account;
 
-        console.log(result);
+
         var theSteemer = result[0];
 
       // --- Activate links in footer of post--- \\
@@ -944,20 +989,20 @@ scapi.me(function (err, res) {
       //title:
 /*
         if (theSteemer !== undefined){
-          console.log("the steemer is defined");
+
           reblogger = account.name;
           reblogAuthor = theSteemer.steem_author;
           reblogLink = "@"+account.name + "\/" + theSteemer.permalink;
 
           scapi.reblog(reblogger, reblogAuthor, reblogLink, function (err, res) {
-            console.log(err, res)
+
             if (res)
             {
-              console.log("Repost is reposty");
+
               return;
             } else if (err){
 
-              console.log("Repost Failed");
+
             }
           });
 
@@ -970,7 +1015,7 @@ scapi.me(function (err, res) {
     )
     .fail(
       function (error){
-        console.log(error);
+
       }
     );
 
@@ -992,19 +1037,30 @@ scapi.me(function (err, res) {
 */
 //--- Check if Steem Posting is Needed & Send that shit ---\\
 if (Cookies.get('getItSteemy') !== undefined && parseInt(Cookies.get('getItSteemy')) == scampiData.songid && Cookies.get('steemOptOut')!=='1'){
-  console.log("send that shit is ACTIVEEEEE");
+
+
+
+
+
   //--- Prepare The Post  ---\\
 
   scapi.me(function (err, res) {
-    console.log(res, err);
+
+
+
 
     if (res) {
-      console.log("res is set");
+
+ if (!window.confirm("Shall we post this on Steemit for you?")){
+
+
+  } else {
+
 
       account = res.account;
-      console.log(scampiData.yt_link);
-    //  console.log(scampiData.title);
-    //  console.log(truuue.spot);
+
+    //
+    //
       author = account.name;
       username = account.name;
 
@@ -1071,11 +1127,10 @@ if (Cookies.get('getItSteemy') !== undefined && parseInt(Cookies.get('getItSteem
       thePost += "# Be Heard.\n\n";
       thePost += "<hr>\n\n";
 
-      thePost += "\n### [Learn](https://steemit.com/introduceyourself/@currentxchange/introducing-current-x-change-and-purple-smt-prp) [More](https://currentxchange.com/cxc-music) ~ [Post Your Music](https://music.cxc.world/#how-to-post) ~ [View this post on cXc Music](https://music.cxc.world/?id="+scampiData.songid+"&locLat="+Cookies.get('locLat')+"&locLng="+Cookies.get('locLng')+"&zoom="+Cookies.get('zoom')+") \n\n";
+      thePost += "\n### [Learn More](https://steemit.com/introduceyourself/@currentxchange/introducing-current-x-change-and-purple-smt-prp) ~ [Post Your Music](https://steemit.com/cxcmusic/@currentxchange/how-to-use-cxc-music) ~ [View this post on cXc Music](https://music.cxc.world/?id="+scampiData.songid+"&locLat="+Cookies.get('locLat')+"&locLng="+Cookies.get('locLng')+"&zoom="+Cookies.get('zoom')+") \n\n";
       thePost += "\n \n \n <br> \n \nHelp us share more music. [Delegate 1 SP](https://steemconnect.com/sign/delegateVestingShares?delegator=&delegatee=currentxchange&vesting_shares=1%20SP) ~ [12 SP](https://steemconnect.com/sign/delegateVestingShares?delegator=&delegatee=currentxchange&vesting_shares=12%20SP) ~ [144 SP](https://steemconnect.com/sign/delegateVestingShares?delegator=&delegatee=currentxchange&vesting_shares=144%20SP)";
       thePost += "\n <br> \n \nThis post was generated by [music.cxc.world](https://music.cxc.world)";
       thePost += "\n\n</center>";
-
 
 
       //--- Build Tags Array---\\
@@ -1087,7 +1142,7 @@ if (Cookies.get('getItSteemy') !== undefined && parseInt(Cookies.get('getItSteem
 
       tagsString += tagsArr.join("\", \"");
       tagsString += '"]';
-      console.log(tagsString);
+
 
 
 
@@ -1101,25 +1156,25 @@ if (Cookies.get('getItSteemy') !== undefined && parseInt(Cookies.get('getItSteem
 
     //  jsonMetadata = {\"tags\": []"+
 
-        console.log(jsonMetadata);
 
 
-      //console.log(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
 
-      console.log(thePost);
+      //
 
-      //console.log(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
+
+
+      //
 
 
 
       scapi.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, function (err, res) {
-        console.log(err, res);
+
         if (res)
         {
           Cookies.remove('getItSteemy'); // Remove the cookie so post is not tried again
-          console.log('Toasty Posty. Put that shit in the DB');
-          console.log(permlink);
-          console.log(author);
+
+
+
           $("#post-to-steem").unbind("click").html('<a target="_blank" class="steem-color" title="Your cXc Music post on Steemit" href="https://steemit.com/@'+author+'\/'+permlink+'">posted</a>');
           $("#alert-holder")
             .prepend('<div id="steem-post-success" class="alert alert-success bottom-alert" role="alert">You posted to Steemit! See it <a class="steem-color" target="_blank" title="Your cXc Music post on Steemit" href="https://steemit.com/@'+author+'\/'+permlink+'">here.</a></div>');
@@ -1150,24 +1205,28 @@ if (Cookies.get('getItSteemy') !== undefined && parseInt(Cookies.get('getItSteem
 
       });
 
-
+} // End confirm
 
 
     }
     if (err) {
-            console.log("err is set");
+
 
             //ADD Error Information asking user to login
     }
 
 
 }); //END scapi.me(function (err, res)
+
+
 // --- Send Post to Steemit --- \\
 
 }//END if (Cookies.get('getItSteemy')
 else {
-  console.log("Steem Send should be active but matching SteemItUp cookie missing");
+
 }//END ELSE (Cookies.get('getItSteemy')
+
+
 }; //END serveScampi()
 
 
