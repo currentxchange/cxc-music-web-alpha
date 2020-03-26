@@ -5,6 +5,15 @@ session_start();
 <!DOCTYPE html>
 <html>
 <head>
+
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NJ45MV8');</script>
+<!-- End Google Tag Manager -->
+
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script src="https://www.googletagmanager.com/gtag/js?id=UA-131077696-1" script async></script>
 	<script>
@@ -18,7 +27,7 @@ session_start();
 		  appId            : '324828248114538',
 		  autoLogAppEvents : true,
 		  xfbml            : true,
-		  version          : 'v2.10'
+		  version          : 'v2.70'
 		});
 		FB.AppEvents.logPageView();
 	  };
@@ -33,6 +42,7 @@ session_start();
 
 		 function shareOverrideOGMeta(overrideLink, overrideTitle, overrideDescription, overrideImage)
 {
+	console.log(overrideLink+"____GG_"+ overrideTitle+"____GG_"+ overrideDescription+"____GG_"+ overrideImage);
 	FB.ui({
 		method: 'share_open_graph',
 		action_type: 'og.likes',
@@ -47,6 +57,7 @@ session_start();
 	},
 	function (response) {
 	// Action after response
+
 	});
 }
 
@@ -61,23 +72,40 @@ session_start();
 	<meta property="og:type" content="music.song">
 	<meta property="og:title" content="cXc Music (Alpha)">
 	<meta property="og:description" content="Find underground music from around the world on cXc Music, an app by @currentxchange">
-	<meta property="og:image" content="images/cXc-Alpha-App-2.1[600].png">
+	<meta property="og:image" content="https://music.cxc.world/images/cXc-Music-Sticker-Simplified[600x600].png">
 	<meta property="fb:app_id" content="324828248114538">
 	<meta property="og:site_name" content="cXc Music">
 		<!-- Twitter Meta -->
 	<meta name="twitter:title" content="cXc Music (Alpha)">
 	<meta name="twitter:description" content="Find underground music from around the world on cXc Music, an app by @currentxchange">
-	<meta name="twitter:image" content="images/cXc-Alpha-App-2.1[600].png">
+	<meta name="twitter:image" content="https://music.cxc.world/images/cXc-Music-Sticker-Simplified[600x600].png">
 	<meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:site" content="@currentXchange">
-	<meta name="twitter:image:src" content="images/cXc-Alpha-App-2.1[600].png">
+	<meta name="twitter:image:src" content="https://music.cxc.world/images/cXc-Music-Sticker-Simplified[600x600].png">
+
+
+
+
+	<!-- Mobile Header styling -->
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#121212">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#121212">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="#121212">
+
+
 
 
 	<title>cXc Music (Alpha)</title>
 
 
+
 	<!-- Dude, can I query that J -->
 	<script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
+	<script src='https://code.jquery.com/ui/1.12.1/jquery-ui.min.js'></script>
+
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl" crossorigin="anonymous"></script>
 
   <!-- Leaflet Stuffs  -->
@@ -114,7 +142,6 @@ session_start();
  -->
 
 <!-- Is it getting Steemy in here? -->
-<script src="//cdn.steemjs.com/lib/latest/steem.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/steemconnect@latest"></script>
 
 <!-- JS Social -->
@@ -129,8 +156,7 @@ session_start();
 <link rel="stylesheet" href="style/responsive.css" />
 
 <!-- F*nting Awesome!! -->
-<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.css" />
 
 <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials-theme-minima.css" />
@@ -142,12 +168,22 @@ session_start();
 -->
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NJ45MV8"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 		<?php include 'search_selectors.php'; ?>
 	<div class="jumbotron" id="slide-left">
 		<?php include 'slide_left.php'; ?>
 	</div>
 
+
+
+
+
+
 	<div class="jumbotron" id="active-music-jumbo">
+
 		<div id="close-jumbo"></div>
 		<span id="chart-return-button"></span>
 		<div id="active-music-jumbo-bg"></div>
@@ -165,6 +201,8 @@ session_start();
 			</div>
 			<div class="sc-play"></div>
 			<div class="spot-play"></div>
+
+
 		<!-- </div> -->
 			<div id="icons">
 
@@ -179,7 +217,6 @@ session_start();
 
 
 			<hr class="jumbo-togs" />
-			<div id="up-button-out" class="up-button"role="button"><img src="images/icons/Sol-Chip-[NoRays][Circled]-Icon-v1.ffff00.svg" width="100" height="100" /></div>
 
 			<!-- Sharing is Caring-->
 					<h1 id="sharing-links-title" class="jumbo-togs">Share This Music</h1>
@@ -187,6 +224,10 @@ session_start();
 					<div id="share-music" class="center jumbo-togs"></div>
 					<hr class="jumbo-togs" />
 					<div id="up-button-in" class="up-button center" role="button"><img src="images/icons/Sol-Chip-[NoRays][Circled]-Icon-v1.ffff00.svg" width="100" height="100" /></div>
+
+
+
+
 <div style= "position:relative">
 	<ul id="flag-options" class="labelOne inspectah-selects">
 		<li class ="tiles-option" value="not-music">not music</li>
@@ -226,11 +267,17 @@ session_start();
 		<span id="steemit-login-link" class="labelOne">
 		  Steemit Login
 		</span>
+		<!--
 		<span id="how-to-label" class="labelOne">
 			<a id="how-to-link" target="_blank" href="https://steemit.com/cxcmusic/@currentxchange/how-to-use-cxc-music">How To Post</a>
 		</span>
+	-->
 		<span id="my-location-link" class="labelOne">Go To My Location</span>
+		<span id="learn-menu-label" class="labelOne" data-toggle="modal" data-target="#learnMoreModal">Learn More </span>
+
 	</div>
+
+	<?php include 'learn_menu.php'; ?>
 
 	<div id='map'></div>
 	<?php include 'charts_display.php'; ?>
@@ -239,16 +286,14 @@ session_start();
 <!-- Maps and Things -->
   <script src="js/map.js"></script>
 <!-- Map First, now things -->
+	<script src="js/currency-display.js"></script>
 	<script src="js/charts.js"></script>
 	<script src="js/markers.js"></script>
 	<script src="js/steemy-sex.js"></script>
 
 	<script src="js/add-music.js"></script>
 	<script src="js/settings.js"></script>
-
-
-<!-- Puss in bootstrap  -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl" crossorigin="anonymous"></script>
+	<script src="js/learn-menu.js"></script>
 
 </body>
 
