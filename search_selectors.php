@@ -1,9 +1,13 @@
 <!--- Selectors for Genre Mood, format BUT WAIT< THERES charts --->
 <div id="selectors-holder">
-
+<!--
 <span id="chart-toggle" class="labelOne static-selectah">
-charts
+
 </span>
+
+--->
+
+<span id="chart-toggle" class="currency-display-button fas fa-2x fa-list"></span>
 
 <span id="genre-selector" class="labelOne static-selectah">
 genre
@@ -29,14 +33,14 @@ clear all
 
 
 
-<ul id="genre-selector-ul" class="labelOne static-selectah">
+<ul id="genre-selector-ul" class="labelOne static-selectah listy">
 
 </ul>
 
-<ul id="mood-selector-ul" class="labelOne static-selectah">
+<ul id="mood-selector-ul" class="labelOne static-selectah listy">
 
 </ul>
 
-<ul id="format-selector-ul" class="labelOne static-selectah">
+<ul id="format-selector-ul" class="labelOne static-selectah listy">
 
 </ul>
